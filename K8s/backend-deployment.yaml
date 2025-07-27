@@ -3,10 +3,7 @@ kind: Deployment
 metadata:
   name: todo-backend
 strategy:
-    type: RollingUpdate
-    rollingUpdate:
-      maxSurge: 1
-      maxUnavailable: 1
+  type: Recreate
 spec:
   replicas: 1
   selector:
