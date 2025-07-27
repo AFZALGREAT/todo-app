@@ -1,14 +1,27 @@
-# === backend/app.py ===
 from flask import Flask, request, jsonify
-app = Flask(__name__)
-tasks = []
+import mysql.connector
+from flask_cors import CORS
 
-@app.route("/tasks", methods=["GET"])
-def get_tasks():
+app = Flask(__name__)
+CORS(app)
+
+def get_db_connection():
+    return mysql.connector.connect(
+        host="todo-mysql", user="root", password="root", database="todo_db"
+    )
+
+@app.route('/tasks', methods=['GET', 'POST'])
+def tasks():
+    conn = get_db_connection()
+    cursor = conn.cursor(dictionary=True)
+    if request.method == 'POST':
+        data = request.get_json()
+        cursor.execute("INSERT INTO tasks (task) VALUES (%s)", (data['task'],))
+        conn.commit()
+    cursor.execute("SELECT * FROM tasks")
+    tasks = cursor.fetchall()
+    conn.close()
     return jsonify(tasks)
 
-@app.route("/tasks", methods=["POST"])
-def add_task():
-    task = request.json.get("task")
-    tasks.append({"task": task})
-    return jsonify({"message": "Task added"}), 201
+if __name__ == '__main__':
+    app.run(debug=True, host='0.0.0.0')
