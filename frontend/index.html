@@ -1,33 +1,38 @@
-# === frontend/index.html ===
 <!DOCTYPE html>
 <html>
 <head>
-  <title>To-Do App</title>
+  <title>Todo App</title>
+  <style>
+    body { font-family: Arial; padding: 20px; background: #f4f4f4; }
+    h1 { color: darkblue; }
+    input { padding: 8px; }
+    button { padding: 8px; }
+  </style>
 </head>
 <body>
-  <h1>To-Do List</h1>
-  <input id="task" placeholder="Enter task">
+  <h1>My Todo List</h1>
+  <input type="text" id="taskInput" placeholder="Enter a task" />
   <button onclick="addTask()">Add</button>
   <ul id="taskList"></ul>
 
   <script>
     async function fetchTasks() {
-      const res = await fetch('/tasks');
-      const data = await res.json();
-      const list = document.getElementById('taskList');
+      let res = await fetch('http://<BACKEND-IP>:5000/tasks');
+      let data = await res.json();
+      let list = document.getElementById('taskList');
       list.innerHTML = '';
       data.forEach(item => {
-        const li = document.createElement('li');
+        let li = document.createElement('li');
         li.innerText = item.task;
         list.appendChild(li);
       });
     }
 
     async function addTask() {
-      const task = document.getElementById('task').value;
-      await fetch('/tasks', {
+      let task = document.getElementById('taskInput').value;
+      await fetch('http://<BACKEND-IP>:5000/tasks', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: {'Content-Type': 'application/json'},
         body: JSON.stringify({ task })
       });
       fetchTasks();
