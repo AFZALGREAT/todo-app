@@ -30,7 +30,7 @@
 
     async function addTask() {
       let task = document.getElementById('taskInput').value;
-      await fetch('http://<BACKEND-IP>:5000/tasks', {
+      await fetch('http://todo-backend:5000/tasks', {
         method: 'POST',
         headers: {'Content-Type': 'application/json'},
         body: JSON.stringify({ task })
