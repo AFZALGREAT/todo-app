@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: nginx-deployment
+  name: nginx-deployment-wrong
 spec:
   replicas: 1
   selector:
@@ -10,10 +10,10 @@ spec:
   template:
     metadata:
       labels:
-        app: nginx
+        app: nginxx           # ❌ galat label - "nginx" hona chahiye tha
     spec:
       containers:
         - name: nginx
-          image: nginx:latest
+          image: nginx:wrongtag    # ❌ galat image tag - "wrongtag" exists nahi karta
           ports:
             - containerPort: 80
