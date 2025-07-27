@@ -14,7 +14,8 @@ spec:
     spec:
       containers:
       - name: frontend
-        image: todo-frontend:1.0
+        image: todo-frontend:latest
+        imagePullPolicy: Never
         ports:
         - containerPort: 80
 ---
@@ -27,6 +28,7 @@ spec:
   selector:
     app: todo-frontend
   ports:
-    - port: 80
+    - protocol: TCP
+      port: 80
       targetPort: 80
-      nodePort: 31997
+      nodePort: 30002
