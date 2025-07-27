@@ -17,7 +17,7 @@
 
   <script>
     async function fetchTasks() {
-      let res = await fetch('http://<BACKEND-IP>:5000/tasks');
+      let res = await fetch('http://todo-backend:5000/tasks');
       let data = await res.json();
       let list = document.getElementById('taskList');
       list.innerHTML = '';
